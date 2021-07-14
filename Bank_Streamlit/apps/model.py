@@ -35,11 +35,11 @@ def app():
     Married = st.radio("What is your Martial Status:",("Single",'Married','Divorced'))
     Age = st.slider('Age', min_value=18, max_value=100)
     Education = st.selectbox('What is your Education Level:',['Primary','Secondary','Tertiary','Unknown'])
-    Job = st.selectbox('What is your Occupation:',["Admin.","Blue-collar","Entrepreneur","Housemaid","Management", "Retired","Self-employed","Services","Student","Technician","Unemployed","Unknown",])
+    Job = st.selectbox('What is your Occupation:',["Admin.","Blue-collar","Entrepreneur","Housemaid","Management", "Retired","Self-employed","Services","Student","Technician","Unemployed","Unknown"])
     Month = st.selectbox('Month', ['January','February','March','April','May','June','July','August','September','October','November','December'])
-    Duration = int(st.number_input("Enter Duration of call",00,100,00))
-    Default = st.radio("Did you default:",("Yes",'No'))
-    Loan = st.radio('Do you have a loan?', ("Yes","No"))
+    Duration = int(st.number_input("Enter Duration of call",00,1000,00))
+    Default = st.radio("Did you default:",('Yes','No'))
+    Loan = st.radio('Do you have a loan?', ('Yes','No'))
     Balance = int(st.number_input('Enter an amount'))
     Housing = st.radio("Do you have a house loan?",('Yes','No'))
     Contact = st.radio("How were you contacted",("Cellular",'Telephone','Unknown'))
@@ -54,53 +54,59 @@ def app():
 
     banker1 = pd.DataFrame(
         {   
-            'age' : 33, 
-            'job' : 'self-employed',
-            'marital' : 'married',
-            'education' : 'secondary', 
+            'age' : 64, 
+            'job' : 'retired',
+            'marital' : 'divorced',
+            'education' : 'primary', 
             'default' : 'no', 
-            'balance' : 0, 
+            'balance' : 109, 
             'housing' : 'no',
             'loan' : 'no',
             'contact' : 'cellular',
-            'day' : 18, 
-            'month' : 'aug', 
-            'duration' : 73,
-            'campaign' : 7,
-            'pdays': -1, 
-            'previous' : 0,
+            'day' : 23, 
+            'month' : 'jun', 
+            'duration' : 706,
+            'campaign' : 1,
+            'pdays': 225, 
+            'previous' : 2,
             'poutcome' : ['success']   
-
-
-            # 'job' : [Job],
-            # 'age' : [Age], 
-            # 'marital' : [Married],
-            # 'education' : [Education],
-            # 'default' : [Default], 
-            # 'balance' : [Balance], 
-            # 'housing' : [Housing],
-            # 'loan' : [Loan],
-            # 'contact' : [Contact],
-            # 'day' : [Day], 
-            # 'month' : [Month], 
-            # 'duration' : [Duration],
-            # 'campaign' : [Campaign],
-            # 'pdays': [pDays], 
-            # 'previous' : [Previous],
-            # 'poutcome' : [pOutcome]       
-         
          
         }
     )
+    
 
+    banker2 = pd.DataFrame(
+        {   
+            'age' : [Age], 
+            'job' : [Job],
+            'marital' : [Married],
+            'education' : [Education], 
+            'default' : [Default], 
+            'balance' : [Balance], 
+            'housing' : [Housing],
+            'loan' : [Loan],
+            'contact' : [Contact],
+            'day' : [Day], 
+            'month' : [Month], 
+            'duration' : [Duration],
+            'campaign' : [Campaign],
+            'pdays': [pDays], 
+            'previous' : [Previous],
+            'poutcome' : [pOutcome]        
+         
 
+        }
+    )
+    
 
-    y_pred = saved_tree_clf.predict(banker1)
+    y_pred = saved_tree_clf.predict(banker2) 
 
-    if y_pred[0] == 0:
-        msg = 'This customer is predicted to be: **Not subscribed**'
-    else:
+    if y_pred[0] == 1:
         msg = 'This customer is predicted to be: **subscribed**'
+        
+    else:
+        msg = 'This customer is predicted to be: **Not subscribed**'
+       
 
     prediction_state.markdown(msg)
     
