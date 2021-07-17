@@ -43,16 +43,7 @@ def app():
     st.pyplot()
 
 #correlation matrix for 9 features
-    df9 = df[['age',
-        'balance',
-        'housing',
-        'contact', 
-        'day',
-        'month',
-        'duration',   
-        'pdays',
-        'poutcome',
-         'Class']]
+    df9 = df[['age','balance','housing','contact','day','month','duration','pdays','poutcome','Class']]
 
 
     df9.loc[df9['month']=='jan','month']=1
