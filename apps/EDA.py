@@ -92,28 +92,29 @@ def app():
 
     st.write("")
 # Chart for month
+    df_age = df
     st.subheader("Month Feature")
     fig, ax = plt.subplots(figsize = (15, 5))
-    sns.countplot(x = 'month', data = df, order = ['jan','feb','mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'])
+    sns.countplot(x = 'month', data = df_age, order = ['jan','feb','mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'])
     ax.set_xlabel("Months")
     ax.set_ylabel("Count")
     ax.set_title("Count of contacts made in each month")
     st.pyplot()
 
-    df.loc[df['month']=='jan','month']=1
-    df.loc[df['month']=='feb','month']=2
-    df.loc[df['month']=='mar','month']=3
-    df.loc[df['month']=='apr','month']=4
-    df.loc[df['month']=='may','month']=5
-    df.loc[df['month']=='jun','month']=6
-    df.loc[df['month']=='jul','month']=7
-    df.loc[df['month']=='aug','month']=8
-    df.loc[df['month']=='sep','month']=9
-    df.loc[df['month']=='oct','month']=10
-    df.loc[df['month']=='nov','month']=11
-    df.loc[df['month']=='dec','month']=12
+    df_age.loc[df_age['month']=='jan','month']=1
+    df_age.loc[df_age['month']=='feb','month']=2
+    df_age.loc[df_age['month']=='mar','month']=3
+    df_age.loc[df_age['month']=='apr','month']=4
+    df_age.loc[df_age['month']=='may','month']=5
+    df_age.loc[df_age['month']=='jun','month']=6
+    df_age.loc[df_age['month']=='jul','month']=7
+    df_age.loc[df_age['month']=='aug','month']=8
+    df_age.loc[df_age['month']=='sep','month']=9
+    df_age.loc[df_age['month']=='oct','month']=10
+    df_age.loc[df_age['month']=='nov','month']=11
+    df_age.loc[df_age['month']=='dec','month']=12
 
-    dict1=dict(list(df.groupby(['month','Class'])))
+    dict1=dict(list(df_age.groupby(['month','Class'])))
     list1=[1,2,3,4,5,6,7,8,9,10,11,12]
     no=[]
     yes=[]
@@ -147,19 +148,19 @@ def app():
 
 ##Housing
     st.subheader("Housing Feature")
-    housing_y=df[df['housing']=='yes']
     housing_n=df[df['housing']=='no']
+    housing_y=df[df['housing']=='yes']
 
     total=df.shape[0]
-    yes=housing_y.count()['Class']
     no=housing_n.count()['Class']
+    yes=housing_y.count()['Class']
     sns.countplot(df['housing'])
     st.pyplot()
 
     st.write(round((yes/total)*100,2),"% of customers, which mean",yes," has a house loan and" ,round((no/total)*100,2),"% do not have a house loan with a count of",no)
-
-    yes=housing_y[housing_y['Class']=='yes'].count()['Class']
+   
     no=housing_y[housing_y['Class']=='no'].count()['Class']
+    yes=housing_y[housing_y['Class']=='yes'].count()['Class']
     total=housing_y.count()['Class']
     st.write("Out of the total amount of customers that have a house loan",round((yes/total)*100,2)," % subscribed to term deposit and",round((no/total)*100,2),"% did not subscribe")
 
@@ -176,4 +177,36 @@ def app():
     st.pyplot()
     st.write("For duration of the calls, if the call had a shorter duration the customers least likelty subscribed to the term deposite while when calls lasted longer you can see more customers subscriing.")
 
+##Job
+    st.subheader("Job Feature")
+    sns.countplot(x = "job",data = df,hue="Class")
+    st.pyplot()
+
+    total_group=[]
+    yes_count=[]
+    no_count=[]
+    title=[]
+    for i in df['job'].value_counts().index:
+      job_df=pd.DataFrame()
+      job_df=df[df['job']==i]
+      title.append(i)
+      total_group.append(job_df.shape[0])
+      yes_count.append(job_df[job_df['Class']=='yes'].count()['Class'])
+      no_count.append(job_df[job_df['Class']=='no'].count()['Class'])
+    job_df=pd.DataFrame()
+    job_df['Job Title']=title
+    job_df['Total']=total_group
+    job_df['No']=no_count
+    job_df['Yes']=yes_count
+    job_df=job_df.sort_values("Yes",ascending=False)
+    
+
+    job_df_cal=pd.DataFrame()
+    job_df_cal['Job Title']=title
+    job_df_cal['Yes %']=round((job_df['Yes']/job_df['Total'])*100)
+    job_df_cal['No %']=round((job_df['No']/job_df['Total'])*100)
+    job_df_cal=job_df_cal.sort_values('Yes %',ascending=False)
+    st.write(job_df_cal)
+
+    st.write("Students (",29,"%) and retired (",23,"%) customers were more likely to take the term depoosit than any other job title in the higher ",20,"% range ")
 
