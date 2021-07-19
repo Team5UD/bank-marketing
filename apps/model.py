@@ -37,7 +37,7 @@ def app():
     Month = st.selectbox('Month', ['January','February','March','April','May','June','July','August','September','October','November','December'])
     Duration = int(st.number_input("Enter Duration of call in seconds",00,5000,00))
     pDays = int(st.number_input("Number of days passed after customer was contacted from last campaign",-1,1000,00))
-    pOutcome = st.radio("What was the status of the previous marketing campaign?,( "unknown","other","failure","success"))
+    pOutcome = st.radio("What was the status of the previous marketing campaign?",( "unknown","other","failure","success"))
 
 
     # this is how to dynamically change text
