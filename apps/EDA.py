@@ -43,38 +43,11 @@ def app():
     st.pyplot()
 
 #correlation matrix for 9 features
-    df9 = df[['age','balance','housing','contact','day','month','duration','pdays','poutcome','Class']]
-
-
-    df9.loc[df9['month']=='jan','month']=1
-    df9.loc[df9['month']=='feb','month']=2
-    df9.loc[df9['month']=='mar','month']=3
-    df9.loc[df9['month']=='apr','month']=4
-    df9.loc[df9['month']=='may','month']=5
-    df9.loc[df9['month']=='jun','month']=6
-    df9.loc[df9['month']=='jul','month']=7
-    df9.loc[df9['month']=='aug','month']=8
-    df9.loc[df9['month']=='sep','month']=9
-    df9.loc[df9['month']=='oct','month']=10
-    df9.loc[df9['month']=='nov','month']=11
-    df9.loc[df9['month']=='dec','month']=12
-                                            
-    df9.loc[df9['housing']=='yes','housing']=1
-    df9.loc[df9['housing']=='no','housing']=2
-                                            
-    df9.loc[df9['contact']=='unknown','contact']=1
-    df9.loc[df9['contact']=='cellular','contact']=2
-    df9.loc[df9['contact']=='telephone','contact']=3
-
-    df9.loc[df9['poutcome']=='unknown','poutcome']=1
-    df9.loc[df9['poutcome']=='other','poutcome']=2
-    df9.loc[df9['poutcome']=='failure','poutcome']=3
-    df9.loc[df9['poutcome']=='success','poutcome']=4
-
+    X = df.drop(['Class', 'job', 'marital', 'education','default','loan', 'campaign', 'previous'], axis=1)
     plt.subplots(figsize=(15,10))
     ax = plt.axes()
-    ax.set_title("Marketing Characteristic Heatmap For The 9 Features")
-    corr = df9.corr()
+    ax.set_title("Marketing Characteristic Heatmap")
+    corr = X.corr()
     sns.heatmap(corr, 
                 xticklabels=corr.columns.values,
                 yticklabels=corr.columns.values,
@@ -176,37 +149,4 @@ def app():
     sns.scatterplot(df['duration'],df['campaign'],hue=df['Class'])
     st.pyplot()
     st.write("For duration of the calls, if the call had a shorter duration the customers least likelty subscribed to the term deposite while when calls lasted longer you can see more customers subscriing.")
-
-##Job
-    st.subheader("Job Feature")
-    sns.countplot(x = "job",data = df,hue="Class")
-    st.pyplot()
-
-    total_group=[]
-    yes_count=[]
-    no_count=[]
-    title=[]
-    for i in df['job'].value_counts().index:
-      job_df=pd.DataFrame()
-      job_df=df[df['job']==i]
-      title.append(i)
-      total_group.append(job_df.shape[0])
-      yes_count.append(job_df[job_df['Class']=='yes'].count()['Class'])
-      no_count.append(job_df[job_df['Class']=='no'].count()['Class'])
-    job_df=pd.DataFrame()
-    job_df['Job Title']=title
-    job_df['Total']=total_group
-    job_df['No']=no_count
-    job_df['Yes']=yes_count
-    job_df=job_df.sort_values("Yes",ascending=False)
-    
-
-    job_df_cal=pd.DataFrame()
-    job_df_cal['Job Title']=title
-    job_df_cal['Yes %']=round((job_df['Yes']/job_df['Total'])*100)
-    job_df_cal['No %']=round((job_df['No']/job_df['Total'])*100)
-    job_df_cal=job_df_cal.sort_values('Yes %',ascending=False)
-    st.write(job_df_cal)
-
-    st.write("Students (",29,"%) and retired (",23,"%) customers were more likely to take the term depoosit than any other job title in the higher ",20,"% range ")
 
