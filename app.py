@@ -1,6 +1,6 @@
 import streamlit as st
 from multiapp import MultiApp
-from apps import home, EDA, model # import your app modules here
+from apps import  EDA, model # import your app modules here
 import numpy as np
 import pandas as pd
 import joblib
@@ -15,7 +15,6 @@ app = MultiApp()
 
 
 # Add all your application here
-app.add_app("Home", home.app)
 app.add_app("EDA", EDA.app)
 app.add_app("Model", model.app)
 # The main app
