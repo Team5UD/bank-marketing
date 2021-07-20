@@ -148,5 +148,5 @@ def app():
     plt.xticks(np.arange(0,5000,150))
     sns.scatterplot(df['duration'],df['campaign'],hue=df['Class'])
     st.pyplot()
-    st.write("For duration of the calls, if the call had a shorter duration the customers least likelty subscribed to the term deposite while when calls lasted longer you can see more customers subscriing.")
+    st.write("For duration of the calls, if the call had a shorter duration the customers least likely subscribed to the term deposit while when calls lasted longer you can see more customers subscribing.")
 
